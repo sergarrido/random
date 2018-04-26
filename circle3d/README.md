@@ -1,15 +1,15 @@
-Derivation of 3D circle center and radius from 3 points
+Derivation of circle center and radius in 3D space (for any position and rotation) given 3 points
 -----
 
 Sergio Garrido-Jurado (sgarrido2011@gmail.com)
 
 26/04/2018
 
-I recently faced this problem and I was surprised I couldnt find this easy derivation on Google, so I just wanted to share it.
+I recently faced this simple problem and I was surprised I couldnt find this easy derivation on Google, so I just wanted to share it.
 
-The problem of finding the center of a 3D circle given 3 points can be solved with a simple linear system of 2 equations (and 2 unknowns).
+The problem is finding the center of a circle in the 3D space (in any position and rotation) given 3 points of its circumference. This derivation shows how it can be solved with a simple linear system of 2 equations (and 2 unknowns).
 
-This document provides the full derivation. If you are only interested in the solution, just go to the end. A coded function in C++ should also be provided in this repository.
+This document provides the full derivation, so if you are only interested in the final solution, just go ahead to the end of the document. A coded function in C++ is also provided in this repository.
 
 
 __Input points:__
@@ -46,7 +46,7 @@ __Unknowns:__
 [Eq3]&nbsp;&nbsp;&nbsp;&nbsp;  p3<sub>x</sub><sup>2</sup> + c<sub>x</sub><sup>2</sup> - 2·p3<sub>x</sub>c<sub>x</sub> + p3<sub>y</sub><sup>2</sup> + c<sub>y</sub><sup>2</sup> - 2·p3<sub>y</sub>c<sub>y</sub> + p3<sub>z</sub><sup>2</sup> + c<sub>z</sub><sup>2</sup> - 2·p3<sub>z</sub>c<sub>z</sub> - radius<sup>2</sup> = 0
 
 
--- We have 3 equations with 4 unknowns. Lets substract Eq4=Eq1-Eq2 and Eq5=Eq1-Eq3=Eq5 to remove unknown quadratic terms and radious:
+-- We have 3 equations with 4 unknowns. Lets substract Eq4=Eq1-Eq2 and Eq5=Eq1-Eq3 to remove unknown quadratic terms and radious:
 
 
 [Eq4]&nbsp;&nbsp;&nbsp;&nbsp;  p1<sub>x</sub><sup>2</sup> - 2·p1<sub>x</sub>c<sub>x</sub> + p1<sub>y</sub><sup>2</sup> - 2·p1<sub>y</sub>c<sub>y</sub> + p1<sub>z</sub><sup>2</sup> - 2·p1<sub>z</sub>c<sub>z</sub> - p2<sub>x</sub><sup>2</sup> + 2·p2<sub>x</sub>c<sub>x</sub> - p2<sub>y</sub><sup>2</sup> + 2·p2<sub>y</sub>c<sub>y</sub> - p2<sub>z</sub><sup>2</sup> + 2·p2<sub>z</sub>c<sub>z</sub> = 0
@@ -72,7 +72,7 @@ __Unknowns:__
 
   V = (v1 | v2)
 
--- Replacing v1 and v2 in [Eq6] and [Eq7]:
+-- Replacing v1 and v2 in [Eq6] and [Eq7] (and reorganizing a bit):
 
   c<sub>x</sub>v1<sub>x</sub> + c<sub>y</sub>v1<sub>y</sub> + c<sub>z</sub>v1<sub>z</sub> = 0.5·( p2<sub>x</sub><sup>2</sup> + p2<sub>y</sub><sup>2</sup> + p2<sub>z</sub><sup>2</sup> - p1<sub>x</sub><sup>2</sup> - p1<sub>y</sub><sup>2</sup> - p1<sub>z</sub><sup>2</sup> )
 
@@ -83,6 +83,8 @@ __Unknowns:__
   [Eq8]&nbsp;&nbsp;&nbsp;&nbsp;  c<sub>x</sub>v1<sub>x</sub> + c<sub>y</sub>v1<sub>y</sub> + c<sub>z</sub>v1<sub>z</sub> = 0.5·( p2·p2 - p1·p1 )
 
   [Eq9]&nbsp;&nbsp;&nbsp;&nbsp;  c<sub>x</sub>v2<sub>x</sub> + c<sub>y</sub>v2<sub>y</sub> + c<sub>z</sub>v2<sub>z</sub> = 0.5·( p3·p3 - p1·p1 )
+
+(Note that the operator · is employed for the dot product when applied to two vectors / points (e.g. p2·p2).)
 
 -- Now lets express the system in [Eq8] and [Eq9] in matrix notation:
 
@@ -102,7 +104,7 @@ where d is the vector:
 
 where k = (k<sub>1</sub>, k<sub>2</sub>)<sup>T</sup>
 
--- So we only need to determine the two parameters k<sub>1</sub> and k<sub>2</sub> to determine the circle center. Now replace [Eq11] in [Eq10]:
+-- So we only need to estimate the two parameters k<sub>1</sub> and k<sub>2</sub> to determine the circle center. Now replace [Eq11] in [Eq10]:
 
   V<sup>T</sup> c = 0.5·d
 
@@ -122,11 +124,9 @@ where k = (k<sub>1</sub>, k<sub>2</sub>)<sup>T</sup>
 
 0.5·(p2·p2 - p1·p1) - (p2·p1 - p1·p1) =
 
-0.5·(p2·p2 - p1·p1) - (p2·p1 - p1·p1) =
+0.5·(p2·p2 - p1·p1 - 2·p2·p1 + 2·p1·p1) =
 
-0.5·(p2·p2 - p1·p1 - 2p2·p1 + 2p1·p1) =
-
-0.5·(p1·p1 + p2·p2 - 2p2·p1) =
+0.5·(p1·p1 + p2·p2 - 2·p2·p1) =
 
 0.5·((p1-p2)·(p1-p2)) =
 
