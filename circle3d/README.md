@@ -141,7 +141,9 @@ where k = (k<sub>1</sub>, k<sub>2</sub>)<sup>T</sup>
   [Eq13]&nbsp;&nbsp;&nbsp;&nbsp;  (V<sup>T</sup> V) k = 0.5·(v1·v1,  v2·v2)<sup>T</sup>
 
 
--- In summary, we have to solve the following 2x2 system:
+*************
+
+-- **In summary**, we have to solve the following 2x2 system:
 
 (v1·v1)k<sub>1</sub> + (v1·v2)k<sub>2</sub> = 0.5·(v1·v1)
 
