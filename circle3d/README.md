@@ -7,7 +7,7 @@ Sergio Garrido-Jurado (sgarrido2011@gmail.com)
 
 I recently faced this simple problem and I was surprised I couldnt find this easy derivation on Google, so I just wanted to share it.
 
-The problem is finding the center of a circle in the 3D space (in any position and rotation) given 3 points of its circumference. This derivation shows how it can be solved with a simple linear system of 2 equations (and 2 unknowns).
+The problem is finding the center of a circle in the 3D space (in any position and rotation) given 3 points of its circumference. THe simplest solution I found solves it with a system of 3 equations. This derivation shows how it can be solved with a simple linear system of 2 equations (and 2 unknowns).
 
 This document provides the full derivation, so if you are only interested in the final solution, just go ahead to the end of the document. A coded function in C++ is also provided in this repository.
 
@@ -64,9 +64,9 @@ __Unknowns:__
 
 -- Now, lets define the vectors:  
 
-  v1 = p2-p1 = (v1<sub>x</sub>, v1<sub>y</sub>, v1<sub>z</sub>)
+  v1 = p2-p1 = (v1<sub>x</sub>, v1<sub>y</sub>, v1<sub>z</sub>)<sup>T</sup>
   
-  v2 = p3-p1 = (v2<sub>x</sub>, v2<sub>y</sub>, v2<sub>z</sub>)
+  v2 = p3-p1 = (v2<sub>x</sub>, v2<sub>y</sub>, v2<sub>z</sub>)<sup>T</sup>
 
 -- And the 3x2 matrix:
 
@@ -80,11 +80,11 @@ __Unknowns:__
 
   ==>
 
-  [Eq8]&nbsp;&nbsp;&nbsp;&nbsp;  c<sub>x</sub>v1<sub>x</sub> + c<sub>y</sub>v1<sub>y</sub> + c<sub>z</sub>v1<sub>z</sub> = 0.5·( p2·p2 - p1·p1 )
+  [Eq8]&nbsp;&nbsp;&nbsp;&nbsp;  c<sub>x</sub>v1<sub>x</sub> + c<sub>y</sub>v1<sub>y</sub> + c<sub>z</sub>v1<sub>z</sub> = 0.5·( p2<sup>T</sup>·p2 - p1<sup>T</sup>·p1 )
 
-  [Eq9]&nbsp;&nbsp;&nbsp;&nbsp;  c<sub>x</sub>v2<sub>x</sub> + c<sub>y</sub>v2<sub>y</sub> + c<sub>z</sub>v2<sub>z</sub> = 0.5·( p3·p3 - p1·p1 )
+  [Eq9]&nbsp;&nbsp;&nbsp;&nbsp;  c<sub>x</sub>v2<sub>x</sub> + c<sub>y</sub>v2<sub>y</sub> + c<sub>z</sub>v2<sub>z</sub> = 0.5·( p3<sup>T</sup>·p3 - p1<sup>T</sup>·p1 )
 
-(Note that the operator · is employed for the dot product when applied to two vectors / points (e.g. p2·p2).)
+(Note that the operator · is employed for the dot product when applied to two vectors / points (e.g. p2<sup>T</sup>·p2).)
 
 -- Now lets express the system in [Eq8] and [Eq9] in matrix notation:
 
@@ -92,7 +92,7 @@ __Unknowns:__
 
 where d is the vector:
 
-  d = (p2·p2 - p1·p1, p3·p3 - p1·p1)<sup>T</sup>
+  d = (p2<sup>T</sup>·p2 - p1<sup>T</sup>·p1, p3<sup>T</sup>·p3 - p1<sup>T</sup>·p1)<sup>T</sup>
 
 -- Now, the center of the circle, c, lies in the same plane than v1 and v2, so it can be expressed as a linear combinations of these two vectors and a starting position p1.
 
@@ -118,48 +118,48 @@ where k = (k<sub>1</sub>, k<sub>2</sub>)<sup>T</sup>
 
 -- Analyzing in detail the right part in [Eq12] for just the first equation (first row) we have:
 
-0.5·(p2·p2 - p1·p1) - v1·p1 =
+0.5·(p2<sup>T</sup>·p2 - p1<sup>T</sup>·p1) - v1<sup>T</sup>·p1 =
 
-0.5·(p2·p2 - p1·p1) - (p2-p1)·p1 =
+0.5·(p2<sup>T</sup>·p2 - p1<sup>T</sup>·p1) - (p2 - p1)<sup>T</sup>·p1 =
 
-0.5·(p2·p2 - p1·p1) - (p2·p1 - p1·p1) =
+0.5·(p2<sup>T</sup>·p2 - p1<sup>T</sup>·p1) - (p2<sup>T</sup>·p1 - p1<sup>T</sup>·p1) =
 
-0.5·(p2·p2 - p1·p1 - 2·p2·p1 + 2·p1·p1) =
+0.5·(p2<sup>T</sup>·p2 - p1<sup>T</sup>·p1 - 2·p2<sup>T</sup>·p1 + 2·p1<sup>T</sup>·p1) =
 
-0.5·(p1·p1 + p2·p2 - 2·p2·p1) =
+0.5·(p1<sup>T</sup>·p1 + p2<sup>T</sup>·p2 - 2·p2<sup>T</sup>·p1) =
 
-0.5·((p1-p2)·(p1-p2)) =
+0.5·((p1 - p2)<sup>T</sup>·(p1 - p2)) =
 
-0.5·(v1·v1) =
+0.5·(v1<sup>T</sup>·v1) =
 
 -- A similar derivation can be done for the second equation (second row) obtaining
 
-0.5·(v2·v2)
+0.5·(v2<sup>T</sup>·v2)
 
 -- So, coming back to matrix notation in [Eq12], we have:
 
-  [Eq13]&nbsp;&nbsp;&nbsp;&nbsp;  (V<sup>T</sup> V) k = 0.5·(v1·v1,  v2·v2)<sup>T</sup>
+  [Eq13]&nbsp;&nbsp;&nbsp;&nbsp;  (V<sup>T</sup> V) k = 0.5·(v1<sup>T</sup>·v1,  v2<sup>T</sup>·v2)<sup>T</sup>
 
 
 *************
 
 -- **In summary**, we have to solve the following 2x2 system:
 
-(v1·v1)k<sub>1</sub> + (v1·v2)k<sub>2</sub> = 0.5·(v1·v1)
+(v1<sup>T</sup>·v1)k<sub>1</sub> + (v1<sup>T</sup>·v2)k<sub>2</sub> = 0.5·(v1<sup>T</sup>·v1)
 
-(v1·v2)k<sub>1</sub> + (v2·v2)k<sub>2</sub> = 0.5·(v2·v2)
+(v1<sup>T</sup>·v2)k<sub>1</sub> + (v2<sup>T</sup>·v2)k<sub>2</sub> = 0.5·(v2<sup>T</sup>·v2)
 
 where
 
-  v1 = p2-p1 = (v1<sub>x</sub>, v1<sub>y</sub>, v1<sub>z</sub>)
+  v1 = p2-p1 = (v1<sub>x</sub>, v1<sub>y</sub>, v1<sub>z</sub>)<sup>T</sup>
   
-  v2 = p3-p1 = (v2<sub>x</sub>, v2<sub>y</sub>, v2<sub>z</sub>)
+  v2 = p3-p1 = (v2<sub>x</sub>, v2<sub>y</sub>, v2<sub>z</sub>)<sup>T</sup>
   
 -- The direct expressions for k<sub>1</sub> and k<sub>2</sub> can be derived obtaining:
 
-k<sub>1</sub> = 0.5·(v2·v2)·[(v1·v1) - (v1·v2)]/[(v1·v1)·(v2·v2)-(v1·v2)<sup>2</sup>]
+k<sub>1</sub> = 0.5·(v2<sup>T</sup>·v2)·[(v1<sup>T</sup>·v1) - (v1<sup>T</sup>·v2)]/[(v1<sup>T</sup>·v1)·(v2<sup>T</sup>·v2)-(v1<sup>T</sup>·v2)<sup>2</sup>]
 
-k<sub>2</sub> = 0.5·(v1·v1)·[(v2·v2) - (v1·v2)]/[(v1·v1)·(v2·v2)-(v1·v2)<sup>2</sup>]
+k<sub>2</sub> = 0.5·(v1<sup>T</sup>·v1)·[(v2<sup>T</sup>·v2) - (v1<sup>T</sup>·v2)]/[(v1<sup>T</sup>·v1)·(v2<sup>T</sup>·v2)-(v1<sup>T</sup>·v2)<sup>2</sup>]
 
 -- After determining k<sub>1</sub> and k<sub>2</sub>, the center of the circle is:
 
