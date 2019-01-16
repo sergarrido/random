@@ -117,7 +117,7 @@ int main()
     // rate from 0 to 1
     for(double i=0.0; i<=1.00001; i+=0.01)
     {
-        double currAngle = angle*(rate-0.5);
+        double currAngle = estimatedAngle*(i-0.5);
         double x = estimatedRadius * sin(-currAngle);
         double y = estimatedRadius * cos(currAngle);
 
