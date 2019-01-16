@@ -118,8 +118,8 @@ int main()
     for(double i=0.0; i<=1.00001; i+=0.01)
     {
         double currAngle = angle*(rate-0.5);
-        double x = radius * sin(-currAngle);
-        double y = radius * cos(currAngle);
+        double x = estimatedRadius * sin(-currAngle);
+        double y = estimatedRadius * cos(currAngle);
 
         // apply offsets and negate x to go from left to right
         x = -x + offsetX;
