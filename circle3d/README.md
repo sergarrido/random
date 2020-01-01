@@ -11,6 +11,7 @@ The problem is finding the center of a circle in the 3D space (in any position a
 
 This document provides the full derivation, so if you are only interested in the final solution, just go ahead to the end of the document. A coded function in C++ is also provided in this repository.
 
+<br/><br/>
 
 __Input points:__
 
@@ -26,9 +27,16 @@ __Unknowns:__
   
   c(c<sub>x</sub>, c<sub>y</sub>, c<sub>z</sub>)<sup>T</sup> : center of circle
   
+  <br/><br/>
   
-   
+  The solution is based on the idea tha the 3 points must belong to a Great Circle (circle with maximum radius) of an sphere with center c.
   
+  So the following conditions must be fullfilled:
+  - The 3 points (p1,p2 and p3) must belong to an sphere with center c.
+  - The 3 points and the center (p1, p2, p3 and c) must belong to the same plane.
+  
+  <br/><br/>
+
 -- Set of spheres passing though the 3 points p1, p2, p3 with center c:
 
   (p1<sub>x</sub>-c<sub>x</sub>)<sup>2</sup> + (p1<sub>y</sub>-c<sub>y</sub>)<sup>2</sup> + (p1<sub>z</sub>-c<sub>z</sub>)<sup>2</sup> - radius<sup>2</sup> = 0
@@ -59,8 +67,7 @@ __Unknowns:__
 
 [Eq7]&nbsp;&nbsp;&nbsp;&nbsp; c<sub>x</sub>( 2·p3<sub>x</sub> - 2·p1<sub>x</sub> ) + c<sub>y</sub>( 2·p3<sub>y</sub> - 2·p1<sub>y</sub> ) + c<sub>z</sub>( 2·p3<sub>z</sub> - 2·p1<sub>z</sub> ) + ( p1<sub>x</sub><sup>2</sup> + p1<sub>y</sub><sup>2</sup> + p1<sub>z</sub><sup>2</sup> - p3<sub>x</sub><sup>2</sup> - p3<sub>y</sub><sup>2</sup> - p3<sub>z</sub><sup>2</sup> ) = 0
 
-  
--- Even if we have removed the quadratic terms, we still have 2 equations with 3 unknowns so we cannot solve it. 
+-- We have 2 equations with 3 unknowns. Now lets add the second condition so that all points belong to the same plane.
 
 -- Now, lets define the vectors:  
 
