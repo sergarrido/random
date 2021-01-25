@@ -153,9 +153,9 @@ void estimate3DCircle(Vector3D p1, Vector3D p2, Vector3D p3, Vector3D &c, double
     v2v2 = v2.dot(v2);
     v1v2 = v1.dot(v2);
 
-    float base = 0.5/(v1v1*v2v2-v1v2*v1v2);
-    float k1 = base*v2v2*(v1v1-v1v2);
-    float k2 = base*v1v1*(v2v2-v1v2);
+    double base = 0.5/(v1v1*v2v2-v1v2*v1v2);
+    double k1 = base*v2v2*(v1v1-v1v2);
+    double k2 = base*v1v1*(v2v2-v1v2);
     c = p1 + v1*k1 + v2*k2; // center
 
     radius = (c-p1).norm();
